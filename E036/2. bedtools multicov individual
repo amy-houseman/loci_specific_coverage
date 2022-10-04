@@ -8,7 +8,7 @@
 #SBATCH --account=scw1581
 #SBATCH --mail-type=ALL          # Mail events (NONE, BEGIN, END, FAIL, ALL)
 #SBATCH --mail-user=HousemanA@cardiff.ac.uk     # Where to send mail
-#SBATCH --array=1-33
+#SBATCH --array=1-63
 #SBATCH --qos=maxjobs500
 
 module purge
@@ -20,11 +20,11 @@ module load bedtools
 set -eu
 
 TOOL=bedtools
-EXOME_IDs_FILE=/scratch/c.c21087028/CLINCNV_RERUN_WITHGENESANNOTATEDBED/NG0921/bedtools/NG0921_sampleIDs
-INPUTBAMS=/scratch/c.c21087028/CLINCNV_RERUN_WITHGENESANNOTATEDBED/NG0921/bam/{}PE_samtoolssorted_GCA_000001405.15_GRCh38_no_alt_analysis_set.bam
-BEDFILE=/scratch/c.c21087028/CLINCNV_RERUN_WITHGENESANNOTATEDBED/NG0921/bedtools/bedfiles_genes/APC_NM_000038.6_wholegene_refseq-hg38_complete.bed
-OUTPUTBEDFILE=/scratch/c.c21087028/CLINCNV_RERUN_WITHGENESANNOTATEDBED/NG0921/bedtools/multicov/{}_bedtools_APC_wholegene.txt
+EXOME_IDs_FILE=/scratch/c.c21087028/CLINCNV_RERUN_WITHGENESANNOTATEDBED/E036/bedtools/bestcoverage_E036_noE036_H_001
+INPUTBAMS=/scratch/c.c21087028/CLINCNV_RERUN_WITHGENESANNOTATEDBED/E036/bam/{}PE_samtoolssorted_GCA_000001405.15_GRCh38_no_alt_analysis_set.bam
+BEDFILE=/scratch/c.c21087028/CLINCNV_RERUN_WITHGENESANNOTATEDBED/E036/bedtools/bedfiles_genes/APC_NM_000038.6_wholegene_refseq-hg38_complete.bed
+OUTPUTBEDFILE=/scratch/c.c21087028/CLINCNV_RERUN_WITHGENESANNOTATEDBED/E036/bedtools/multicov/{}_bedtools_APC_wholegene.txt
 
 cd /scratch/c.c21087028/
 
-sed -n "${SLURM_ARRAY_TASK_ID}p" $EXOME_IDs_FILE | parallel -j 1 "$TOOL multicov -bams $INPUTBAMS -bed $BED > $OUTPUTBEDFILE"
+sed -n "${SLURM_ARRAY_TASK_ID}p" $EXOME_IDs_FILE | parallel -j 1 "$TOOL multicov -bams $INPUTBAMS -bed $BEDFILE > $OUTPUTBEDFILE"
