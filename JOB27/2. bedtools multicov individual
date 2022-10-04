@@ -8,7 +8,7 @@
 #SBATCH --account=scw1581
 #SBATCH --mail-type=ALL          # Mail events (NONE, BEGIN, END, FAIL, ALL)
 #SBATCH --mail-user=HousemanA@cardiff.ac.uk     # Where to send mail
-#SBATCH --array=1-33
+#SBATCH --array=1-18
 #SBATCH --qos=maxjobs500
 
 module purge
@@ -27,4 +27,4 @@ OUTPUTBEDFILE=/scratch/c.c21087028/CLINCNV_RERUN_WITHGENESANNOTATEDBED/JOB27/bed
 
 cd /scratch/c.c21087028/
 
-sed -n "${SLURM_ARRAY_TASK_ID}p" $EXOME_IDs_FILE | parallel -j 1 "$TOOL multicov -bams $INPUTBAMS -bed $BED > $OUTPUTBEDFILE"
+sed -n "${SLURM_ARRAY_TASK_ID}p" $EXOME_IDs_FILE | parallel -j 1 "$TOOL multicov -bams $INPUTBAMS -bed $BEDFILE > $OUTPUTBEDFILE"
