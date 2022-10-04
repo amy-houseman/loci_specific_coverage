@@ -27,4 +27,4 @@ OUTPUTBEDFILE=/scratch/c.c21087028/CLINCNV_RERUN_WITHGENESANNOTATEDBED/NG0921/be
 
 cd /scratch/c.c21087028/
 
-sed -n "${SLURM_ARRAY_TASK_ID}p" $EXOME_IDs_FILE | parallel -j 1 "$TOOL multicov -bams $INPUTBAMS -bed $BED > $OUTPUTBEDFILE
+sed -n "${SLURM_ARRAY_TASK_ID}p" $EXOME_IDs_FILE | parallel -j 1 "$TOOL multicov -bams $INPUTBAMS -bed $BED > $OUTPUTBEDFILE"
