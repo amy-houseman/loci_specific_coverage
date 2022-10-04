@@ -1,0 +1,24 @@
+#!/bin/bash --login
+#SBATCH -J AmyHouseman_bedtoolsmulticov
+#SBATCH -o %x.stdout.%J.%N
+#SBATCH -e %x.stderr.%J.%N
+#SBATCH --ntasks=1
+#SBATCH --ntasks-per-node=1
+#SBATCH -p htc
+#SBATCH --account=scw1581
+#SBATCH --mail-type=ALL          # Mail events (NONE, BEGIN, END, FAIL, ALL)
+#SBATCH --mail-user=HousemanA@cardiff.ac.uk     # Where to send mail
+
+module purge
+module load singularity
+module load parallel
+module load bedtools
+
+# Set bash error trapping to exit on first error.
+set -eu
+
+INPUTBAMS=/scratch/c.c21087028/CLINCNV_RERUN_WITHGENESANNOTATEDBED/JOB27/bam/*.bam
+BEDFILE=/scratch/c.c21087028/CLINCNV_RERUN_WITHGENESANNOTATEDBED/JOB27/bedtools/bedfiles_genes/APC_NM_000038.6_wholegene_refseq-hg38_complete.bed
+OUTPUTBEDFILE=/scratch/c.c21087028/CLINCNV_RERUN_WITHGENESANNOTATEDBED/JOB27/bedtools/multicov/JOB27_bedtools_APC_wholegene.txt
+
+bedtools multicov -bams $INPUTBAMS -bed $BEDFILE > $OUTPUTBEDFILE
