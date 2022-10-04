@@ -1,9 +1,9 @@
 NG0921_bedtools_APC_wholegene_withIDs <- read.delim("~/Desktop/scratch /Complete annotation of VCFs/COVERAGE OF GENES/UCSC - genomic locations/APC loci /NG0921/whole gene coverage/2. combined samples/NG0921_bedtools_APC_wholegene_withIDs.txt")
 
 covData <- NG0921_bedtools_APC_wholegene_withIDs
-colnames(covData) <- c("chromosome", "start", "end", "NG0921001_EKDN210018941-1A_HN2MGDSX2_L2_")
+colnames(covData) <- c("chromosome", "start", "end", "NG0921035_EKDN210018974-1A_HMYL3DSX2_L4_")
 
-samples <- c("NG0921001_EKDN210018941-1A_HN2MGDSX2_L2_")
+samples <- c("NG0921035_EKDN210018974-1A_HMYL3DSX2_L4_")
 
 a <- function(x, y){
   col_names <- c("chromosome", "end", x)
@@ -12,6 +12,8 @@ a <- function(x, y){
   return(y)
 }
 covData <- lapply(samples, a, covData)
+
+names(covData) <- samples
 
 if (!require("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
@@ -39,11 +41,11 @@ start <- as.numeric(min(covData[[1]]$end))
 end <- as.numeric(max(covData[[1]]$end))
 grObject <- GRanges(seqnames=c("chr5"), ranges=IRanges(start=start, end=end))
 
-install.packages("devtools")
+#install.packages("devtools")
 library(devtools)
 install_github("griffithlab/GenVisR")
 library("GenVisR")
 
-genCov(x=covData, txdb=TxDbObject, gr=grObject, genome=genomeObject, cov_plotType="line")
+setwd("/Users/amyhouseman/Desktop/scratch /Complete annotation of VCFs/COVERAGE OF GENES/sample_coverage/NG0921")
 
-genCov(x=covData, txdb=TxDbObject, gr=grObject, genome=genomeObject, cov_plotType="line", gene_isoformSel="ENST00000257430.9", base=NA, transform=NA)
+genCov(x=covData, txdb=TxDbObject, gr=grObject, genome=genomeObject, cov_plotType="line", gene_isoformSel="ENST00000257430.9", base=NA, transform=NA, cov_colour="dodgerblue4", gene_colour="midnightblue", gene_name="APC (ENST00000257430.9)", label_txtSize=2)
