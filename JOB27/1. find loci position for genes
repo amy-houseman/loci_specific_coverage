@@ -1,0 +1,20 @@
+Go to https://genome.ucsc.edu/cgi-bin/hgTables
+
+On 'table' choose NCBI refseq
+
+##Whole genome coordinates:
+
+For whole genome version coordinates, use region: genomic.
+Output format as BED and change the output file name. 
+Find the refseq ID in the file, for APC this is NM_000038.6.
+Click next, then choose whole gene. 
+
+You will then see its coordinates like this (first three columns):
+
+chr5	112737884	112846239	NM_000038.6
+
+##Exon coordinates (+20 bases at each end)
+For whole genome version coordinates, use region: genomic.
+Output format as BED and change the output file name. 
+Find the refseq ID in the file, for APC this is NM_000038.6.
+Click next, then choose Exons plus 20 bases at each end.
