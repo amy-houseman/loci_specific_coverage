@@ -1,0 +1,51 @@
+#Import dataset
+
+covData <- E218_E132_bedtools_APC_wholegene_withID
+colnames(covData) <- c("chromosome", "start", "end", "E218.A.001_S6_L001_")
+
+samples <- c("E218.A.001_S6_L001_")
+
+a <- function(x, y){
+  col_names <- c("chromosome", "end", x)
+  y <- y[,col_names]
+  colnames(y) <- c("chromosome", "end", "cov")
+  return(y)
+}
+covData <- lapply(samples, a, covData)
+
+names(covData) <- samples
+
+if (!require("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+BiocManager::install(version = "3.15")
+
+BiocManager::install("BSgenome", version = "3.15")
+
+library("BSgenome")
+available.genomes()
+
+BiocManager::install("BSgenome.Hsapiens.UCSC.hg38", version = "3.15")
+library("BSgenome.Hsapiens.UCSC.hg38")
+
+genomeObject <- BSgenome.Hsapiens.UCSC.hg38
+
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+
+BiocManager::install("TxDb.Hsapiens.UCSC.hg38.knownGene", version = "3.15")
+library("TxDb.Hsapiens.UCSC.hg38.knownGene")
+TxDbObject <- TxDb.Hsapiens.UCSC.hg38.knownGene
+
+chromosome <- as.character(unique(covData[[1]]$chromosome))
+start <- as.numeric(min(covData[[1]]$end))
+end <- as.numeric(max(covData[[1]]$end))
+grObject <- GRanges(seqnames=c("chr5"), ranges=IRanges(start=start, end=end))
+
+#install.packages("devtools")
+library(devtools)
+install_github("griffithlab/GenVisR")
+library("GenVisR")
+
+setwd("/Users/amyhouseman/Desktop/scratch /Complete annotation of VCFs/COVERAGE OF GENES/sample_coverage/APC/E218_E132/Whole gene - figures")
+
+genCov(x=covData, txdb=TxDbObject, gr=grObject, genome=genomeObject, cov_plotType="line", gene_isoformSel="ENST00000257430.9", base=NA, transform=NA, cov_colour="dodgerblue4", gene_colour="midnightblue", gene_name="APC (ENST00000257430.9)", label_txtSize=2)
